@@ -1,35 +1,63 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// frontend/src/App.jsx
+import { useEffect, useState } from "react";
+import { getStaff, createStaff } from "./lib/api";
+import StaffList from "./components/StaffList";
+import StaffForm from "./components/StaffForm";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [staff, setStaff] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getStaff();
+        setStaff(data);
+      } catch (err) {
+        setError(err.message || "Failed to load staff");
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  async function handleCreate(payload) {
+    setCreating(true);
+    try {
+      const created = await createStaff(payload);
+      // Prepend so newest appears first (matches API order)
+      setStaff((prev) => [created, ...prev]);
+    } finally {
+      setCreating(false);
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="container">
+      <header className="header">
+        <h1>Staff Scheduler</h1>
+        <p className="sub">Manage your team and shifts</p>
+      </header>
 
-export default App
+      <main className="grid">
+        <section className="left">
+          <StaffForm onCreate={handleCreate} busy={creating} />
+        </section>
+
+        <section className="right">
+          <h2 className="h2">All Staff</h2>
+          {loading ? (
+            <div className="loading">Loading...</div>
+          ) : error ? (
+            <div className="error">{error}</div>
+          ) : (
+            <StaffList staff={staff} />
+          )}
+        </section>
+      </main>
+    </div>
+  );
+}
