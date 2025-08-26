@@ -96,3 +96,78 @@ body {
   padding: 4px 8px; border-radius: 999px; color: var(--muted); font-size: 12px;
 }
 .meta { color: var(--muted); font-size: 14px; }
+
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.row.between {
+  justify-content: space-between;
+}
+
+.muted { color: var(--muted); }
+
+.btn.outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid #2a376e;
+}
+
+.table {
+  display: grid;
+  gap: 0;
+  padding: 0;
+}
+
+.thead, .trow {
+  display: grid;
+  grid-template-columns: 140px 140px 120px 1fr 220px;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #202a55;
+}
+.thead {
+  font-weight: 600;
+  color: var(--muted);
+  background: #0e1530;
+  border-radius: 12px 12px 0 0;
+  border: 1px solid #202a55;
+}
+.trow {
+  background: #0c1330;
+  border-left: 1px solid #202a55;
+  border-right: 1px solid #202a55;
+}
+.trow:last-child {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-bottom: 1px solid #202a55;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.filter input[type="date"] {
+  background: #0e1530;
+  color: var(--text);
+  border: 1px solid #2a376e;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
