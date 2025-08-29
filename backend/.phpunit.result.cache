@@ -1,0 +1,1 @@
+{"version":1,"defects":[],"times":{"ValidatorsTest::testAllowedRoles":0.007,"ValidatorsTest::testValidDay":0.002,"ValidatorsTest::testValidTime":0,"ValidatorsTest::testTimeMinutes":0,"ValidatorsTest::testHasOverlap":0.016}}
