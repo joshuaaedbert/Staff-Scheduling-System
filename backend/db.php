@@ -1,5 +1,4 @@
 <?php
-
 /**
  * db.php — SQLite bootstrap.
  *

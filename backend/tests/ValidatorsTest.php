@@ -1,4 +1,17 @@
 <?php
+/**
+ * ValidatorsTest — PHPUnit tests for validation/util utilities.
+ *
+ * Verifies:
+ * - allowed_roles(): returns expected canonical roles.
+ * - valid_day(): accepts YYYY-MM-DD and rejects malformed/impossible dates.
+ * - valid_time(): enforces HH:MM (24-hour).
+ * - time_minutes(): converts HH:MM → minutes since midnight.
+ * - has_overlap(): detects half-open interval overlaps and respects an exclude ID.
+ *
+ * Note: The overlap test provisions an in-memory SQLite schema locally.
+ */
+
 use PHPUnit\Framework\TestCase;
 
 final class ValidatorsTest extends TestCase

@@ -1,7 +1,26 @@
 <?php
+/**
+ * staff.php — Minimal JSON API for staff records.
+ *
+ * GET
+ *   200 → JSON array of staff: [{id, name, role, phone}, ...]
+ *
+ * POST
+ *   Body: { name:string, role:string, phone?:string }
+ *   Valid roles: server | cook | manager (case-insensitive; stored lowercase)
+ *   201 → JSON of created staff; 400 on validation; 405 on unsupported method.
+ *
+ * Requires: db.php (PDO $pdo). Outputs JSON.
+ */
+
 require_once __DIR__ . '/db.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
+
+/**
+ * Parse JSON request body.
+ * @return array Decoded assoc array; [] if missing/invalid.
+ */
 
 function json_input() {
   $raw = file_get_contents('php://input');

@@ -1,9 +1,29 @@
 <?php
+/**
+ * shifts.php — Minimal JSON API for managing shift assignments.
+ *
+ * GET
+ *   Optional: ?day=YYYY-MM-DD
+ *   200 → JSON array of shifts (LEFT JOIN staff); 400 on invalid day.
+ *
+ * POST
+ *   action=assign   Body: {shift_id:int, staff_id:int} → 200 shift; 404 if not found; 400/409 on validation.
+ *   action=unassign Body: {shift_id:int}               → 200 shift; 404 if not found.
+ *   (create)        Body: {day, start_time, end_time, role, [staff_id]} → 201 shift; 400/404/409 on validation.
+ *
+ * Errors: 400 invalid input, 404 not found, 405 method not allowed, 409 conflict (overlap).
+ * Requires: db.php (PDO $pdo) and lib/validators.php (valid_day, valid_time, time_minutes, allowed_roles, has_overlap).
+ */
+
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/lib/validators.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+/**
+ * Parse JSON request body.
+ * @return array Decoded associative array; empty array if missing/invalid JSON.
+ */
 function json_input() {
   $raw = file_get_contents('php://input');
   $data = json_decode($raw, true);
